@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:new_app/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Material(
-        child: Center(
-          child: Container(child: const Text("Welcome to our project")),
-        ),
-      ),
+      home: HomePage(),
     );
   }
 }
