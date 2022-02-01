@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:new_app/utils/routes.dart';
 
@@ -10,6 +12,19 @@ class _loginpageState extends State<loginpage> {
   String name = "";
   bool changeButton = false;
   final _formKey = GlobalKey<FormState>();
+  moveToHome(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        changeButton = true;
+      });
+      await Future.delayed(const Duration(seconds: 1));
+      await Navigator.pushNamed(context, MyRoutes.homeRoute);
+      setState(() {
+        changeButton = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -39,6 +54,12 @@ class _loginpageState extends State<loginpage> {
                     TextFormField(
                       decoration: const InputDecoration(
                           hintText: "Enter Username", labelText: "Username"),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Username can not be empty";
+                        }
+                        return null;
+                      },
                       onChanged: (value) {
                         name = value;
                         setState(() {});
@@ -48,6 +69,14 @@ class _loginpageState extends State<loginpage> {
                       obscureText: true,
                       decoration: const InputDecoration(
                           hintText: "Enter Password", labelText: "Password"),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Password can not be empty";
+                        } else if (value.length < 6) {
+                          return "Password length should be at least 6";
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 30.0,
@@ -57,17 +86,7 @@ class _loginpageState extends State<loginpage> {
                       borderRadius:
                           BorderRadius.circular(changeButton ? 50 : 8),
                       child: InkWell(
-                        onTap: () async {
-                          setState(() {
-                            changeButton = true;
-                          });
-                          await Future.delayed(Duration(seconds: 1));
-                          await Navigator.pushNamed(
-                              context, MyRoutes.homeRoute);
-                          setState(() {
-                            changeButton = false;
-                          });
-                        },
+                        onTap: () => moveToHome(context),
                         child: AnimatedContainer(
                           duration: const Duration(seconds: 1),
                           width: changeButton ? 50 : 150,
@@ -88,20 +107,6 @@ class _loginpageState extends State<loginpage> {
                         ),
                       ),
                     ),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     Navigator.pushNamed(context, MyRoutes.homeRoute);
-                    //   },
-                    //   child: const Text(
-                    //     "Login",
-                    //     style: TextStyle(
-                    //       fontSize: 19,
-                    //       fontWeight: FontWeight.bold,
-                    //     ),
-                    //   ),
-                    //   style:
-                    //       TextButton.styleFrom(minimumSize: const Size(120, 40)),
-                    // )
                   ],
                 ),
               )
