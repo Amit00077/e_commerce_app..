@@ -1,14 +1,39 @@
-import 'package:flutter/material.dart';
-import 'package:new_app/models/catalog.dart';
-import 'package:new_app/widgets/widgets.dart';
-import 'package:new_app/widgets/itemwidgets.dart';
+import 'dart:convert';
 
-class HomePage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:new_app/models/catalog.dart';
+import 'package:new_app/widgets/itemwidgets.dart';
+import 'package:new_app/widgets/widgets.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+@override
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    final catalogjson =
+        await rootBundle.loadString("assets/files/catalog.json");
+    final decodeddata = jsonDecode(catalogjson);
+    var productdata = decodeddata["products"];
+    CatalogModel.items =
+        List.from(productdata).map<Item>((item) => Item.fromMap(item)).toList();
+    setState(() {});
+
+    // print(productData);
+  }
+
   Widget build(BuildContext context) {
-    final dummyList = List.generate(20, (index) => CatalogModel.items[0]);
     return Scaffold(
       appBar: AppBar(
           title: const Text(
@@ -18,10 +43,10 @@ class HomePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
-          itemCount: dummyList.length,
+          itemCount: CatalogModel.items.length,
           itemBuilder: (context, index) {
             return ItemWidgets(
-              item: dummyList[index],
+              item: CatalogModel.items[index],
             );
           },
         ),
