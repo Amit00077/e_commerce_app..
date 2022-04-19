@@ -5,10 +5,12 @@ import 'package:new_app/utils/routes.dart';
 import 'package:new_app/widgets/themes.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,9 +22,9 @@ class MyApp extends StatelessWidget {
 
       initialRoute: MyRoutes.homeRoute,
       routes: {
-        "/": (context) => loginpage(),
+        "/": (context) => const loginpage(),
         MyRoutes.homeRoute: (context) => const HomePage(),
-        MyRoutes.loginRoute: (context) => loginpage()
+        MyRoutes.loginRoute: (context) => const loginpage()
       },
     );
   }

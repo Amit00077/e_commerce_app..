@@ -30,7 +30,7 @@
             "desc": "Sony Playstation 5th generation",
             "price": 500,
             "color": "#544ee4",
-            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMOMstwtmLnjFb3NHiDJ_kcQnueNVH-rv_3ps96HZmXlFumKWaiBqq_L4Uoyx3iFiNTrXNEbyB&usqp=CAc"
+            "image": "https://images.immediate.co.uk/production/volatile/sites/3/2020/08/playstation-5-77d37a0.jpg?quality=90&resize=620,413"
         },
         {
             "id": 5,
@@ -63,6 +63,14 @@
             "price": 899,
             "color": "#7c95eb",
             "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBNHd7FwarbxA1xdMFt24KazjcR4dWPH_t_T5dz4YNK1s7rJAQ8gOIuR_NRw6eeiQgFhbZ9sAN&usqp=CAc"
+        },
+        {
+            "id": 9,
+            "name": "Asus TUF",
+            "desc": "Asus tuf gaming ",
+            "price": 1200,
+            "color": "#33505a",
+            "image": "https://n2.sdlcdn.com/imgs/i/9/k/Asus-TUF-FX505DY-BQ024T-Gaming-SDL358599702-1-98787.jpeg"
         }
     ]
 }
