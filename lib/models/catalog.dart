@@ -1,17 +1,7 @@
-// import 'package:flutter/cupertino.dart';
-
-// import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 
 class CatalogModel {
-  static List<Item> items = [
-    Item(
-        id: 1,
-        name: "iPhone 12 pro",
-        desc: "Apple iPhone 12th generation",
-        price: 999,
-        color: "#33505a",
-        image: "https://m.media-amazon.com/images/I/71MHTD3uL4L.jpg")
-  ];
+  static List<Item> items = items;
 }
 
 class Item {
