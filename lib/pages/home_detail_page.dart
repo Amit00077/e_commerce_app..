@@ -60,10 +60,10 @@ class HomeDetailPage extends StatelessWidget {
                       catalog.desc.text.xl.make(),
                       10.heightBox,
                       "Lorem accusam duo diam gubergren amet nonumy ,"
-                          .text
+                          .richText
                           .sm
                           .make()
-                          .p16()
+                          .expand()
                     ],
                   ).p64(),
                 ),
