@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:new_app/models/catalog.dart';
 import 'package:new_app/pages/home_detail_page.dart';
 import 'package:velocity_x/velocity_x.dart';
-
 import '../../widgets/themes.dart';
 import 'catalog_image.dart';
 
@@ -45,7 +44,10 @@ class CatalogItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            catalog.name.text.lg.color(Mytheme.bluish).bold.make(),
+            catalog.name.text.lg
+                .color(Theme.of(context).colorScheme.secondary)
+                .bold
+                .make(),
             catalog.desc.text.make(),
             10.heightBox,
             ButtonBar(
@@ -65,6 +67,6 @@ class CatalogItem extends StatelessWidget {
           ],
         ))
       ],
-    )).white.rounded.square(150).make().py16();
+    )).color(context.cardColor).rounded.square(150).make().py16();
   }
 }
