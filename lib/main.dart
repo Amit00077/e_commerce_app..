@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:new_app/core/store.dart';
 import 'package:new_app/pages/cart_page.dart';
