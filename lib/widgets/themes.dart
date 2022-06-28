@@ -13,11 +13,17 @@ class Mytheme {
           iconTheme: IconThemeData(color: Colors.black),
           titleTextStyle: TextStyle(color: Colors.black)));
   static ThemeData darktheme(BuildContext context) => ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.deepPurple,
+        // brightness: Brightness.dark,
+        toggleableActiveColor: Colors.deepPurple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        // primarySwatch: Colors.deepPurple,
         cardColor: Colors.black,
         canvasColor: darkcreamcolor,
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: creamcolor),
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple).copyWith(
+          secondary: creamcolor,
+          brightness: Brightness.dark,
+        ),
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
             color: Colors.white,
             elevation: 0.0,

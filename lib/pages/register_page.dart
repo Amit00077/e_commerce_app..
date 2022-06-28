@@ -1,31 +1,32 @@
 // ignore_for_file: camel_case_types
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:new_app/pages/home_page.dart';
-import 'package:new_app/pages/register_page.dart';
+import 'package:new_app/pages/login_page.dart';
 import 'package:new_app/utils/routes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class loginpage extends StatefulWidget {
-  const loginpage({Key? key}) : super(key: key);
+import '../models/user_model_.dart';
+
+class registerpage extends StatefulWidget {
+  const registerpage({Key? key}) : super(key: key);
 
   @override
-  State<loginpage> createState() => _loginpageState();
+  State<registerpage> createState() => _registerpageState();
 }
 
-class _loginpageState extends State<loginpage> {
+class _registerpageState extends State<registerpage> {
+  final _auth = FirebaseAuth.instance;
   String name = "";
   bool changeButton = false;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  String? errorMessage;
-  //firebase
-  final _auth = FirebaseAuth.instance;
-
+  final firstNameEditingController = TextEditingController();
+  final emailEditingController = TextEditingController();
+  final passwordEditingController = TextEditingController();
+  final confirmpasswordEditingController = TextEditingController();
   moveToHome(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -57,7 +58,7 @@ class _loginpageState extends State<loginpage> {
                 height: 20.0,
               ),
               const Text(
-                "Welcome ",
+                "Sign up ",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               Padding(
@@ -65,42 +66,64 @@ class _loginpageState extends State<loginpage> {
                     vertical: 16.0, horizontal: 25.0),
                 child: Column(
                   children: [
+                    // name field
+                    TextFormField(
+                      controller: firstNameEditingController,
+                      keyboardType: TextInputType.name,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return ("Name can not be empty");
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        firstNameEditingController.text = value!;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: const InputDecoration(
+                        hintText: "Name ",
+                        labelText: "Name",
+                        prefixIcon: Icon(Icons.account_circle),
+                      ),
+                    ),
+
                     // email field
                     TextFormField(
-                      controller: emailController,
+                      autofocus: false,
+                      controller: emailEditingController,
                       decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.mail),
                           hintText: "Email ",
                           labelText: "Email"),
-                      keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Email no can not be empty";
+                          return "please Enter Your Email";
                         }
+                        // reg expression for email validation
                         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                             .hasMatch(value)) {
                           return ("Please Enter a valid email");
                         }
-
                         return null;
                       },
-                      onChanged: (value) {
-                        name = value;
-                        setState(() {});
+                      onSaved: (value) {
+                        emailEditingController.text = value!;
                       },
+                      textInputAction: TextInputAction.next,
                     ),
+
                     // password field
                     TextFormField(
                       obscureText: true,
-                      controller: passwordController,
+                      controller: passwordEditingController,
                       decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.vpn_key),
-                          hintText: "Enter Password",
-                          labelText: "Password"),
+                        prefixIcon: Icon(Icons.vpn_key),
+                        hintText: "Password",
+                      ),
                       validator: (value) {
                         RegExp regex = RegExp(r'^.{6,}$');
                         if (value!.isEmpty) {
-                          return ("Passward is Required for login");
+                          return ("Passward id Required for login");
                         }
                         if (!regex.hasMatch(value)) {
                           return ("Please Enter Valid Password(Min 6. characters)");
@@ -108,8 +131,31 @@ class _loginpageState extends State<loginpage> {
                         return null;
                       },
                     ),
+
+                    // confirm password field
+                    TextFormField(
+                      autofocus: false,
+                      controller: confirmpasswordEditingController,
+                      obscureText: true,
+                      validator: (value) {
+                        if (confirmpasswordEditingController.text !=
+                            passwordEditingController.text) {
+                          return "Password dont match";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        confirmpasswordEditingController.text = value!;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.vpn_key),
+                        hintText: "Confirm Password",
+                      ),
+                    ),
+                    // signup button
                     const SizedBox(
-                      height: 30.0,
+                      height: 20,
                     ),
                     Material(
                       elevation: 5,
@@ -119,10 +165,11 @@ class _loginpageState extends State<loginpage> {
                         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                         minWidth: MediaQuery.of(context).size.width / 3,
                         onPressed: () {
-                          signIn(emailController.text, passwordController.text);
+                          signUp(emailEditingController.text,
+                              passwordEditingController.text);
                         },
                         child: const Text(
-                          'login',
+                          'signUp',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 20,
@@ -144,11 +191,10 @@ class _loginpageState extends State<loginpage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const registerpage()));
+                                    builder: (context) => const loginpage()));
                           },
                           child: const Text(
-                            "SignUp",
+                            "login",
                             style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,
@@ -167,44 +213,36 @@ class _loginpageState extends State<loginpage> {
     );
   }
 
-  // login function
-  void signIn(String email, String password) async {
+  void signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      try {
-        await _auth
-            .signInWithEmailAndPassword(email: email, password: password)
-            .then((uid) => {
-                  Fluttertoast.showToast(msg: "Login Successful"),
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const HomePage()))
-                });
-      } on FirebaseAuthException catch (error) {
-        switch (error.code) {
-          case "invalid-email":
-            errorMessage = "Your email address appears to be malformed.";
-
-            break;
-          case "wrong-password":
-            errorMessage = "Your password is wrong.";
-            break;
-          case "user-not-found":
-            errorMessage = "User with this email doesn't exist.";
-            break;
-          case "user-disabled":
-            errorMessage = "User with this email has been disabled.";
-            break;
-          case "too-many-requests":
-            errorMessage = "Too many requests";
-            break;
-          case "operation-not-allowed":
-            errorMessage = "Signing in with Email and Password is not enabled.";
-            break;
-          default:
-            errorMessage = "An undefined Error happened.";
-        }
-        Fluttertoast.showToast(msg: errorMessage!);
-        print(error);
-      }
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {postDetailsToFirestore()})
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
+      });
     }
+  }
+
+  postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our usermodel
+    // calling these values
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.firstName = firstNameEditingController.text;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfuly");
+    Navigator.pushAndRemoveUntil((context),
+        MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
   }
 }

@@ -6,10 +6,10 @@ import 'package:new_app/core/store.dart';
 import 'package:new_app/models/cart.dart';
 import 'package:new_app/models/catalog.dart';
 import 'package:new_app/utils/routes.dart';
+import 'package:new_app/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../widgets/home_widgets/catalog_header.dart';
 import '../widgets/home_widgets/catalog_list.dart';
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -45,6 +45,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final _cart = (VxState.store as MyStore).cart;
     return Scaffold(
+      drawer: const MyDrawer(),
+      appBar: AppBar(
+        backgroundColor: context.canvasColor,
+      ),
       backgroundColor: context.canvasColor,
       floatingActionButton: VxConsumer(
         notifications: const {},
