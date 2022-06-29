@@ -11,7 +11,7 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: prefer_const_declarations
     final imagrurl =
-        "https://media-exp2.licdn.com/dms/image/C4D03AQHdFZLMEpqAUw/profile-displayphoto-shrink_800_800/0/1653640692672?e=1660780800&v=beta&t=P7ReQhob475LvwBy-LDh7uDN6Js8sa1NlV0Eap2aHms";
+        "https://image.shutterstock.com/image-vector/young-man-anime-style-character-600w-1566014713.jpg";
 
     return Drawer(
       child: Container(
@@ -25,7 +25,7 @@ class MyDrawer extends StatelessWidget {
                     decoration: BoxDecoration(color: context.canvasColor),
                     margin: EdgeInsets.zero,
                     accountEmail: Text(
-                      "amitbaliyan071@gmail.com",
+                      "amit@gmail.com",
                       textScaleFactor: 1.2,
                       style: TextStyle(color: Colors.black),
                     ),
